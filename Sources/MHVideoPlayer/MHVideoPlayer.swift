@@ -2,15 +2,6 @@ import Foundation
 import AVKit
 import MediaPlayer
 
-
-public struct MHVideoPlayer {
-    public private(set) var text = "Hello, World!"
-
-    public init() {
-    }
-}
-
-
 protocol MHVideoPlayerViewDelegate: AnyObject{
     func mhVideoPlayerCallback(loadStart playerView: MHVideoPlayerView)
     func mhVideoPlayerCallback(lodaFinished playerView: MHVideoPlayerView, isLoadSuccess: Bool, error: Error?)
