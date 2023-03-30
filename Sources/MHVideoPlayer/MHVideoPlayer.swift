@@ -35,8 +35,13 @@ public enum MHVideoPlayerViewFillModeType{
 }
 
 public struct PlayingInfo{ //백그라운드 컨트롤러에서 띄울 플레이어 정보
-    public let titleStr: String
-    public let imgUrlStr: String?
+    let titleStr: String
+    let imgUrlStr: String?
+    
+    public init(titleStr: String, imgUrlStr: String?) {
+        self.titleStr = titleStr
+        self.imgUrlStr = imgUrlStr
+    }
 }
 
 public class MHVideoPlayerView: UIView{
