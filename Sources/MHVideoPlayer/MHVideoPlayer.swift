@@ -463,8 +463,37 @@ public class MHVideoPlayerView: UIView{
         }
     }
     
-    
-    
+    //set closure
+    public func setPlayerLoadStartClosure(closure: @escaping PlayerLoadStart){
+        self.playerLoadStartClosure = closure
+    }
+    public func setPlayerLoadFinishClosure(closure: @escaping PlayerLoadFinish){
+        self.playerLoadFinishClosure = closure
+    }
+    public func setPlayerStatusClosure(closure: @escaping PlayerStatus){
+        self.playerStatusClosure = closure
+    }
+    public func setPlayerItemStatusClosure(closure: @escaping PlayerItemStatus){
+        self.playerItemStatusClosure = closure
+    }
+    public func setPlayerLoadedTimeRangesClosure(closure: @escaping PlayerLoadedTimeRanges){
+        self.playerLoadedTimeRangesClosure = closure
+    }
+    public func setPlayerDurationClosure(closure: @escaping PlayerDuration){
+        self.playerDurationClosure = closure
+    }
+    public func setPlayerCurrentTimeClosure(closure: @escaping PlayerCurrentTime){
+        self.playerCurrentTimeClosure = closure
+    }
+    public func setPlayerRateClosure(closure: @escaping PlayerRate){
+        self.playerRateClosure = closure
+    }
+    public func setPlayerIsLikeyKeepUpClosure(closure: @escaping PlayerIsLikeyKeepUp){
+        self.playerIsLikeyKeepUpClosure = closure
+    }
+    public func setPlayerFinishedClosure(closure: @escaping PlayerFinished){
+        self.playerFinishedClosure = closure
+    }
 }
 
 extension MHVideoPlayerView{
@@ -497,35 +526,35 @@ extension MHVideoPlayerView{
 }
 
 extension MHVideoPlayerView{
-    public func setPlayerLoadStartClosure(closure: @escaping PlayerLoadStart){
-        self.playerLoadStartClosure = closure
-    }
-    public func setPlayerLoadFinishClosure(closure: @escaping PlayerLoadFinish){
-        self.playerLoadFinishClosure = closure
-    }
-    public func setPlayerStatusClosure(closure: @escaping PlayerStatus){
-        self.playerStatusClosure = closure
-    }
-    public func setPlayerItemStatusClosure(closure: @escaping PlayerItemStatus){
-        self.playerItemStatusClosure = closure
-    }
-    public func setPlayerLoadedTimeRangesClosure(closure: @escaping PlayerLoadedTimeRanges){
-        self.playerLoadedTimeRangesClosure = closure
-    }
-    public func setPlayerDurationClosure(closure: @escaping PlayerDuration){
-        self.playerDurationClosure = closure
-    }
-    public func setPlayerCurrentTimeClosure(closure: @escaping PlayerCurrentTime){
-        self.playerCurrentTimeClosure = closure
-    }
-    public func setPlayerRateClosure(closure: @escaping PlayerRate){
-        self.playerRateClosure = closure
-    }
-    public func setPlayerIsLikeyKeepUpClosure(closure: @escaping PlayerIsLikeyKeepUp){
-        self.playerIsLikeyKeepUpClosure = closure
-    }
-    public func setPlayerFinishedClosure(closure: @escaping PlayerFinished){
-        self.playerFinishedClosure = closure
-    }
+//    public func setPlayerLoadStartClosure(closure: @escaping PlayerLoadStart){
+//        self.playerLoadStartClosure = closure
+//    }
+//    public func setPlayerLoadFinishClosure(closure: @escaping PlayerLoadFinish){
+//        self.playerLoadFinishClosure = closure
+//    }
+//    public func setPlayerStatusClosure(closure: @escaping PlayerStatus){
+//        self.playerStatusClosure = closure
+//    }
+//    public func setPlayerItemStatusClosure(closure: @escaping PlayerItemStatus){
+//        self.playerItemStatusClosure = closure
+//    }
+//    public func setPlayerLoadedTimeRangesClosure(closure: @escaping PlayerLoadedTimeRanges){
+//        self.playerLoadedTimeRangesClosure = closure
+//    }
+//    public func setPlayerDurationClosure(closure: @escaping PlayerDuration){
+//        self.playerDurationClosure = closure
+//    }
+//    public func setPlayerCurrentTimeClosure(closure: @escaping PlayerCurrentTime){
+//        self.playerCurrentTimeClosure = closure
+//    }
+//    public func setPlayerRateClosure(closure: @escaping PlayerRate){
+//        self.playerRateClosure = closure
+//    }
+//    public func setPlayerIsLikeyKeepUpClosure(closure: @escaping PlayerIsLikeyKeepUp){
+//        self.playerIsLikeyKeepUpClosure = closure
+//    }
+//    public func setPlayerFinishedClosure(closure: @escaping PlayerFinished){
+//        self.playerFinishedClosure = closure
+//    }
     
 }
