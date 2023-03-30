@@ -495,3 +495,37 @@ extension MHVideoPlayerView{
     }
     
 }
+
+extension MHVideoPlayerView{
+    func setPlayerLoadStartClosure(closure: @escaping PlayerLoadStart){
+        self.playerLoadStartClosure = closure
+    }
+    func setPlayerLoadFinishClosure(closure: @escaping PlayerLoadFinish){
+        self.playerLoadFinishClosure = closure
+    }
+    func setPlayerStatusClosure(closure: @escaping PlayerStatus){
+        self.playerStatusClosure = closure
+    }
+    func setPlayerItemStatusClosure(closure: @escaping PlayerItemStatus){
+        self.playerItemStatusClosure = closure
+    }
+    func setPlayerLoadedTimeRangesClosure(closure: @escaping PlayerLoadedTimeRanges){
+        self.playerLoadedTimeRangesClosure = closure
+    }
+    func setPlayerDurationClosure(closure: @escaping PlayerDuration){
+        self.playerDurationClosure = closure
+    }
+    func setPlayerCurrentTimeClosure(closure: @escaping PlayerCurrentTime){
+        self.playerCurrentTimeClosure = closure
+    }
+    func setPlayerRateClosure(closure: @escaping PlayerRate){
+        self.playerRateClosure = closure
+    }
+    func setPlayerIsLikeyKeepUpClosure(closure: @escaping PlayerIsLikeyKeepUp){
+        self.playerIsLikeyKeepUpClosure = closure
+    }
+    func setPlayerFinishedClosure(closure: @escaping PlayerFinished){
+        self.playerFinishedClosure = closure
+    }
+    
+}
