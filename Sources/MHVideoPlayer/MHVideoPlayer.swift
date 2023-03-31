@@ -2,19 +2,6 @@ import Foundation
 import AVKit
 import MediaPlayer
 
-//protocol MHVideoPlayerViewDelegate: AnyObject{
-//    func mhVideoPlayerCallback(loadStart playerView: MHVideoPlayerView)
-//    func mhVideoPlayerCallback(lodaFinished playerView: MHVideoPlayerView, isLoadSuccess: Bool, error: Error?)
-//    func mhVideoPlayerCallback(playerView: MHVideoPlayerView, statusPlayer: AVPlayer.Status, error: Error?)
-//    func mhVideoPlayerCallback(playerView: MHVideoPlayerView, statusItemPlayer: AVPlayerItem.Status, error: Error?)
-//    func mhVideoPlayerCallback(playerView: MHVideoPlayerView, loadedTimeRanges: [CMTimeRange])
-//    func mhVideoPlayerCallback(playerView: MHVideoPlayerView, duration: Double)
-//    func mhVideoPlayerCallback(playerView: MHVideoPlayerView, currentTime: Double)
-//    func mhVideoPlayerCallback(playerView: MHVideoPlayerView, rate: Float)
-//    func mhVideoPlayerCallback(playerView: MHVideoPlayerView, isLikelyKeepUp: Bool)
-//    func mhVideoPlayerCallback(playerFinished playerView: MHVideoPlayerView)
-//}
-
 public enum MHVideoPlayerViewFillModeType{
     case resizeAspect
     case resizeAspectFill
@@ -62,16 +49,16 @@ public class MHVideoPlayerView: UIView{
     public typealias PlayerIsLikeyKeepUp = (_ playerView: MHVideoPlayerView, _ isLikelyKeepUp: Bool)->()
     public typealias PlayerFinished = (_ playerView: MHVideoPlayerView)->()
     
-    public var playerLoadStartClosure: PlayerLoadStart?
-    public var playerLoadFinishClosure: PlayerLoadFinish?
-    public var playerStatusClosure: PlayerStatus?
-    public var playerItemStatusClosure: PlayerItemStatus?
-    public var playerLoadedTimeRangesClosure: PlayerLoadedTimeRanges?
-    public var playerDurationClosure: PlayerDuration?
-    public var playerCurrentTimeClosure: PlayerCurrentTime?
-    public var playerRateClosure: PlayerRate?
-    public var playerIsLikeyKeepUpClosure: PlayerIsLikeyKeepUp?
-    public var playerFinishedClosure: PlayerFinished?
+    private var playerLoadStartClosure: PlayerLoadStart?
+    private var playerLoadFinishClosure: PlayerLoadFinish?
+    private var playerStatusClosure: PlayerStatus?
+    private var playerItemStatusClosure: PlayerItemStatus?
+    private var playerLoadedTimeRangesClosure: PlayerLoadedTimeRanges?
+    private var playerDurationClosure: PlayerDuration?
+    private var playerCurrentTimeClosure: PlayerCurrentTime?
+    private var playerRateClosure: PlayerRate?
+    private var playerIsLikeyKeepUpClosure: PlayerIsLikeyKeepUp?
+    private var playerFinishedClosure: PlayerFinished?
     
     
     private var statusContext = true
@@ -94,8 +81,6 @@ public class MHVideoPlayerView: UIView{
     private let tPlaybackBufferFullKey = "playbackBufferFull"
     private let tPlayerKeepUpKey = "playbackLikelyToKeepUp"
     private let tLoadedTimeRangesKey = "loadedTimeRanges"
-    
-//    weak var delegate: MHVideoPlayerViewDelegate?
     
     public override class var layerClass: AnyClass{
         AVPlayerLayer.self
@@ -241,8 +226,7 @@ public class MHVideoPlayerView: UIView{
     
     /** 플레이어 준비 **/
     private func preparePlayer(url: URL){
-        
-//        self.delegate?.mhVideoPlayerCallback(loadStart: self)
+    
         self.playerLoadStartClosure?(self)
         
         let asset = AVURLAsset(url: url)
@@ -254,13 +238,11 @@ public class MHVideoPlayerView: UIView{
                     var error: NSError?
                     let status = asset.statusOfValue(forKey: key, error: &error)
                     if status == .failed{
-//                        self.delegate?.mhVideoPlayerCallback(lodaFinished: self, isLoadSuccess: false, error: error)
                         self.playerLoadFinishClosure?(self, false, error)
                         return
                     }
                     if asset.isPlayable == false{
                         self.playerLoadFinishClosure?(self, false, error)
-//                        self.delegate?.mhVideoPlayerCallback(lodaFinished: self, isLoadSuccess: false, error: error)
                         return
                     }
                 }
@@ -275,7 +257,7 @@ public class MHVideoPlayerView: UIView{
 
                 self.addObserversPlayer(avPlayer: self.player!)
                 self.addObserversVideoItem(playerItem: self.player!.currentItem!)
-//                self.delegate?.mhVideoPlayerCallback(lodaFinished: self, isLoadSuccess: true, error: nil)
+                
                 self.playerLoadFinishClosure?(self, true, nil)
             }
         }
@@ -378,7 +360,6 @@ public class MHVideoPlayerView: UIView{
         self.timeObserverToken = self.player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { [weak self] time-> Void in
             if let mySelf = self{
                 if mySelf.isCalcurateCurrentTime{
-//                    self?.delegate?.mhVideoPlayerCallback(playerView: mySelf, currentTime: mySelf.currentTime)
                     self?.playerCurrentTimeClosure?(mySelf, mySelf.currentTime)
                 }
             }
@@ -406,7 +387,6 @@ public class MHVideoPlayerView: UIView{
                 super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
                 return
             }
-//            self.delegate?.mhVideoPlayerCallback(playerView: self, statusPlayer: player.status, error: player.error)
             self.playerStatusClosure?(self, player.status, player.error)
             
         }else if context == &loadedContext{
@@ -416,17 +396,14 @@ public class MHVideoPlayerView: UIView{
                 return
             }
             let values = times.map{$0.timeRangeValue}
-//            self.delegate?.mhVideoPlayerCallback(playerView: self, loadedTimeRanges: values)
             self.playerLoadedTimeRangesClosure?(self, values)
             
         }else if context == &durationContext{
             if let currentItem = self.player?.currentItem{
-//                self.delegate?.mhVideoPlayerCallback(playerView: self, duration: currentItem.duration.seconds)
                 self.playerDurationClosure?(self, currentItem.duration.seconds)
             }
         }else if context == &statusItemContext{
             if let currentItem = self.player?.currentItem{
-//                self.delegate?.mhVideoPlayerCallback(playerView: self, statusItemPlayer: currentItem.status, error: currentItem.error)
                 self.playerItemStatusClosure?(self, currentItem.status, currentItem.error)
             }
         }else if context == &rateContext{
@@ -439,14 +416,12 @@ public class MHVideoPlayerView: UIView{
             }else{
                 self.addCurrentTimeObserver()
             }
-//            self.delegate?.mhVideoPlayerCallback(playerView: self, rate: newRate)
             self.playerRateClosure?(self, newRate)
             
         }else if context == &statusKeepUpContext{
             guard let newIsKeepupValue = (change?[NSKeyValueChangeKey.newKey] as? Bool) else{
                 return
             }
-//            self.delegate?.mhVideoPlayerCallback(playerView: self, isLikelyKeepUp: newIsKeepupValue)
             self.playerIsLikeyKeepUpClosure?(self, newIsKeepupValue)
             
         }else if context == &playerItemContext{
@@ -498,8 +473,6 @@ public class MHVideoPlayerView: UIView{
 
 extension MHVideoPlayerView{
     @objc private func playerItemDidPlayToEndTime(notification: NSNotification){
-//        self.delegate?.mhVideoPlayerCallback(playerFinished: self)
-        
         self.playerFinishedClosure?(self)
     }
 }
@@ -522,39 +495,4 @@ extension MHVideoPlayerView{
         self.player?.seek(to: CMTime.zero)
         self.player?.play()
     }
-    
-}
-
-extension MHVideoPlayerView{
-//    public func setPlayerLoadStartClosure(closure: @escaping PlayerLoadStart){
-//        self.playerLoadStartClosure = closure
-//    }
-//    public func setPlayerLoadFinishClosure(closure: @escaping PlayerLoadFinish){
-//        self.playerLoadFinishClosure = closure
-//    }
-//    public func setPlayerStatusClosure(closure: @escaping PlayerStatus){
-//        self.playerStatusClosure = closure
-//    }
-//    public func setPlayerItemStatusClosure(closure: @escaping PlayerItemStatus){
-//        self.playerItemStatusClosure = closure
-//    }
-//    public func setPlayerLoadedTimeRangesClosure(closure: @escaping PlayerLoadedTimeRanges){
-//        self.playerLoadedTimeRangesClosure = closure
-//    }
-//    public func setPlayerDurationClosure(closure: @escaping PlayerDuration){
-//        self.playerDurationClosure = closure
-//    }
-//    public func setPlayerCurrentTimeClosure(closure: @escaping PlayerCurrentTime){
-//        self.playerCurrentTimeClosure = closure
-//    }
-//    public func setPlayerRateClosure(closure: @escaping PlayerRate){
-//        self.playerRateClosure = closure
-//    }
-//    public func setPlayerIsLikeyKeepUpClosure(closure: @escaping PlayerIsLikeyKeepUp){
-//        self.playerIsLikeyKeepUpClosure = closure
-//    }
-//    public func setPlayerFinishedClosure(closure: @escaping PlayerFinished){
-//        self.playerFinishedClosure = closure
-//    }
-    
 }
