@@ -96,7 +96,7 @@ public class MHVideoPlayerWithDelegateView: UIView{
         }
     }
     
-    weak var delegate: MHVideoPlayerViewDelegate?
+    weak public var delegate: MHVideoPlayerViewDelegate?
     
     public var keepingPlayer: AVPlayer = AVPlayer()
     
