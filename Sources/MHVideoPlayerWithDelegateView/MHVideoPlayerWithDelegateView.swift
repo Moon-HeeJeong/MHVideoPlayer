@@ -9,20 +9,49 @@ import Foundation
 import AVKit
 import MediaPlayer
 
-protocol MHVideoPlayerViewDelegate: AnyObject{
-    func mhVideoPlayerCallback(loadStart playerView: MHVideoPlayerViewWithDelegate)
-    func mhVideoPlayerCallback(loadFinish playerView: MHVideoPlayerViewWithDelegate, isLoadSuccess: Bool, error: Error?)
-    func mhVideoPlayerCallback(playerView: MHVideoPlayerViewWithDelegate, statusPlayer: AVPlayer.Status, error: Error?)
-    func mhVideoPlayerCallback(playerView: MHVideoPlayerViewWithDelegate, statusItemPlayer: AVPlayerItem.Status, error: Error?)
-    func mhVideoPlayerCallback(playerView: MHVideoPlayerViewWithDelegate, loadedTimeRanges: [CMTimeRange])
-    func mhVideoPlayerCallback(playerView: MHVideoPlayerViewWithDelegate, duration: Double)
-    func mhVideoPlayerCallback(playerView: MHVideoPlayerViewWithDelegate, currentTime: Double)
-    func mhVideoPlayerCallback(playerView: MHVideoPlayerViewWithDelegate, rate: Float)
-    func mhVideoPlayerCallback(playerView: MHVideoPlayerViewWithDelegate, isLikelyKeepUp: Bool)
-    func mhVideoPlayerCallback(playerFinished playerView: MHVideoPlayerViewWithDelegate)
+public enum MHVideoPlayerViewFillModeType{
+    case resizeAspect
+    case resizeAspectFill
+    case resize
+    
+    var AVLayerVideoGravity: AVLayerVideoGravity{
+        get{
+            switch self {
+            case .resizeAspect:
+                return .resizeAspect
+            case .resizeAspectFill:
+                return .resizeAspectFill
+            case .resize:
+                return .resize
+            }
+        }
+    }
 }
 
-public class MHVideoPlayerViewWithDelegate: UIView{
+public struct PlayingInfo{ //백그라운드 컨트롤러에서 띄울 플레이어 정보
+    let titleStr: String
+    let imgUrlStr: String?
+    
+    public init(titleStr: String, imgUrlStr: String?) {
+        self.titleStr = titleStr
+        self.imgUrlStr = imgUrlStr
+    }
+}
+
+public protocol MHVideoPlayerViewDelegate: AnyObject{
+    func mhVideoPlayerCallback(loadStart playerView: MHVideoPlayerWithDelegateView)
+    func mhVideoPlayerCallback(loadFinish playerView: MHVideoPlayerWithDelegateView, isLoadSuccess: Bool, error: Error?)
+    func mhVideoPlayerCallback(playerView: MHVideoPlayerWithDelegateView, statusPlayer: AVPlayer.Status, error: Error?)
+    func mhVideoPlayerCallback(playerView: MHVideoPlayerWithDelegateView, statusItemPlayer: AVPlayerItem.Status, error: Error?)
+    func mhVideoPlayerCallback(playerView: MHVideoPlayerWithDelegateView, loadedTimeRanges: [CMTimeRange])
+    func mhVideoPlayerCallback(playerView: MHVideoPlayerWithDelegateView, duration: Double)
+    func mhVideoPlayerCallback(playerView: MHVideoPlayerWithDelegateView, currentTime: Double)
+    func mhVideoPlayerCallback(playerView: MHVideoPlayerWithDelegateView, rate: Float)
+    func mhVideoPlayerCallback(playerView: MHVideoPlayerWithDelegateView, isLikelyKeepUp: Bool)
+    func mhVideoPlayerCallback(playerFinished playerView: MHVideoPlayerWithDelegateView)
+}
+
+public class MHVideoPlayerWithDelegateView: UIView{
     
     deinit{
         print("deinit \(self)")
@@ -409,13 +438,13 @@ public class MHVideoPlayerViewWithDelegate: UIView{
     }
 }
 
-extension MHVideoPlayerViewWithDelegate{
+extension MHVideoPlayerWithDelegateView{
     @objc private func playerItemDidPlayToEndTime(notification: NSNotification){
         self.delegate?.mhVideoPlayerCallback(playerFinished: self)
     }
 }
 
-extension MHVideoPlayerViewWithDelegate{
+extension MHVideoPlayerWithDelegateView{
     public func play(rate: Float = 1){
         self.rate = rate
     }
