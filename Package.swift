@@ -10,6 +10,9 @@ let package = Package(
         .library(
             name: "MHVideoPlayer",
             targets: ["MHVideoPlayer"]),
+        .library(
+            name: "MHVideoPlayerViewWithDelegate",
+            targets: ["MHVideoPlayerViewWithDelegate"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -24,5 +27,8 @@ let package = Package(
         .testTarget(
             name: "MHVideoPlayerTests",
             dependencies: ["MHVideoPlayer"]),
+        .target(
+            name: "MHVideoPlayerViewWithDelegate",
+            dependencies: []),
     ]
 )

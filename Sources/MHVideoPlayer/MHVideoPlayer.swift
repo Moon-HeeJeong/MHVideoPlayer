@@ -31,6 +31,8 @@ public struct PlayingInfo{ //백그라운드 컨트롤러에서 띄울 플레이
     }
 }
 
+
+
 public class MHVideoPlayerView: UIView{
     
     deinit{
